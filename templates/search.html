@@ -1,0 +1,124 @@
+{% extends "home.html" %}
+{% block title %}Search Results{% endblock %}
+{% block body %}
+<h1>
+    <span>S</span>
+    <span>e</span>
+    <span>a</span>
+    <span>r</span>
+    <span>c</span>
+    <span>h</span>
+    <span> </span>
+    <span>R</span>
+    <span>e</span>
+    <span>s</span>
+    <span>u</span>
+    <span>l</span>
+    <span>t</span>
+    <span>s</span>
+</h1>
+    {% if results %}
+        <ul>
+            {% for i in results %}
+            <div class="card mb-3" style="width: 100%;">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="{{i.imgURL}}" class="card-img" alt="..." height="200px">
+                    </div>
+                    <div class="col-md-8">
+                    <div class="card-body">
+                        <h3 class="card-title" style= "color: crimson">{{i.name}}</h3>
+                        <p class="card-text">{{i.category}}<br>{{i.price}}</p>
+                        {% if user.is_authenticated %}
+                        <form action="/cart/bucket" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value={{i.id}}>
+                            <input type="hidden" name="name" value={{i.name}}>
+                            <input type="hidden" name="category" value={{i.category}}>
+                            <input type="hidden" name="price" value={{i.price}}>
+                            <input type="hidden" name="img" value={{i.imgURL}}>
+                            <a href="/"><button type="submit" class="btn btn-outline-danger">ADD TO CART</button></a>
+                        </form>
+                        {% else %}
+                        <a href="#" class="btn btn-primary">ADD TO CART</a>
+                        {% endif %}
+                    </div>
+                    </div>
+                </div>
+                </div>            
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+    <style>
+        /* Add the following styles to your existing CSS or in a separate stylesheet */
+
+body {
+    background-color: #e8a1bb; /* Set your preferred background color */
+}
+
+h1 {
+    color: #343a40; /* Set your preferred heading color */
+    text-align: center;
+    margin-top: 20px;
+}
+h1 {
+    font-size: 36px;
+    text-align: center;
+    margin-top: 20px;
+    color: #f3f7fb; /* Set your preferred heading color */
+    position: relative;
+}
+
+h1 span {
+    display: inline-block;
+    animation: glow 2s infinite;
+}
+
+@keyframes glow {
+    0%, 100% {
+        text-shadow: 0 0 5px #ff00a2, 0 0 10px #ff00a2, 0 0 20px #ff00a2;
+    }
+    50% {
+        text-shadow: 0 0 10px #ff00a2, 0 0 20px #ff00a2, 0 0 30px #ff00a2;
+    }
+}
+
+.card {
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+}
+
+.card-img {
+    max-width: 100%;
+    height: auto;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    color: crimson;
+}
+
+.card-text {
+    color: #01070c; /* Set your preferred text color */
+}
+
+.btn-outline-danger,
+.btn-primary {
+    color: #fff;
+    background-color: rgb(239, 138, 158); /* Set your preferred button background color */
+    border-color: rgb(222, 144, 159); /* Set your preferred button border color */
+}
+
+.btn-outline-danger:hover,
+.btn-primary:hover {
+    background-color: #dc3545; /* Set your preferred button hover background color */
+    border-color: #dc3545; /* Set your preferred button hover border color */
+}
+
+    </style>
+{% endblock %}
